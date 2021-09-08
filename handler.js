@@ -23,6 +23,13 @@ module.exports.textResponder = async (event) => {
   const fromNumber = eventData.From;
   const textMessage = eventData.Body;
 
+  let message = 'Hello, Vox JS Guild';
+
+  if (textMessage.trim().toUpperCase() === 'TIME') {
+    let now = new Date();
+    message = `The time is now ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+  }
+
   return {
     statusCode: 200,
     headers: {
@@ -30,7 +37,7 @@ module.exports.textResponder = async (event) => {
     },
     body: `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Message>Hello, Vox JS Guild</Message>
+    <Message>${message}</Message>
 </Response>`,
   };
 }
