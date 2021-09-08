@@ -1,7 +1,7 @@
 service: js-guild-twilio
 
 frameworkVersion: '2'
-
+useDotenv: true
 
 provider:
   name: aws
@@ -9,5 +9,11 @@ provider:
   lambdaHashingVersion: 20201221
 
 functions:
-  hello:
-    handler: handler.hello
+  textResponder:
+    handler: handler.textResponder
+    # HttpApi are handled via AWS through API Gateway
+    events:
+      - httpApi:
+          path: /textresponder
+          method: post
+

@@ -1,5 +1,7 @@
 'use strict';
 
+const queryString = require('querystring');
+
 module.exports.hello = async (event) => {
   return {
     statusCode: 200,
@@ -13,3 +15,22 @@ module.exports.hello = async (event) => {
     ),
   };
 };
+
+module.exports.textResponder = async (event) => {
+  let eventBodyBuffer = Buffer.from(event.body, "base64");
+  let eventData = queryString.parse(eventBodyBuffer.toString('utf-8'));
+
+  const fromNumber = eventData.From;
+  const textMessage = eventData.Body;
+
+  return {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'text/xml',
+    },
+    body: `<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Message>Hello, Vox JS Guild</Message>
+</Response>`,
+  };
+}
